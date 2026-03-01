@@ -1,11 +1,18 @@
 package Vistas;
+import Controlador.GrafoControlador;
 
 public class MainVentana extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainVentana.class.getName());
-
+    
+    private GrafoControlador controlador;
+    
     public MainVentana() {
         initComponents();
+        
+        // Inicializar controlador
+        controlador = new GrafoControlador();
+        
         // Imagenes para los botones y para el título
         // Tamaños
         int tamañoBoton = 20;      // Imagenes de botones
@@ -81,6 +88,7 @@ public class MainVentana extends javax.swing.JFrame {
         panelCentral = new javax.swing.JPanel();
         panelInferior = new javax.swing.JPanel();
         lblInfo = new javax.swing.JLabel();
+        btnSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(237, 235, 255));
@@ -177,28 +185,23 @@ public class MainVentana extends javax.swing.JFrame {
 
         panelInferior.setBackground(new java.awt.Color(255, 255, 255));
         panelInferior.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(165, 138, 217), null));
+        panelInferior.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        panelInferior.setLayout(new java.awt.BorderLayout());
 
         lblInfo.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lblInfo.setForeground(new java.awt.Color(110, 106, 120));
-        lblInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblInfo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblInfo.setText("Proteínas: 0 | Hub principal: --- | Conexiones: 0");
+        lblInfo.setPreferredSize(new java.awt.Dimension(400, 30));
+        panelInferior.add(lblInfo, java.awt.BorderLayout.WEST);
 
-        javax.swing.GroupLayout panelInferiorLayout = new javax.swing.GroupLayout(panelInferior);
-        panelInferior.setLayout(panelInferiorLayout);
-        panelInferiorLayout.setHorizontalGroup(
-            panelInferiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelInferiorLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(lblInfo)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panelInferiorLayout.setVerticalGroup(
-            panelInferiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelInferiorLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblInfo)
-                .addContainerGap(19, Short.MAX_VALUE))
-        );
+        btnSalir.setBackground(new java.awt.Color(75, 58, 109));
+        btnSalir.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        btnSalir.setForeground(new java.awt.Color(255, 255, 255));
+        btnSalir.setText("Salir");
+        btnSalir.setPreferredSize(new java.awt.Dimension(72, 15));
+        btnSalir.addActionListener(this::btnSalirActionPerformed);
+        panelInferior.add(btnSalir, java.awt.BorderLayout.EAST);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -252,6 +255,21 @@ public class MainVentana extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnComplejosActionPerformed
 
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        int respuesta = javax.swing.JOptionPane.showConfirmDialog(
+        this,                                   // Ventana 
+        "¿Estás seguro que deseas salir?",      // Mensaje
+        "Confirmar salida",                      // Título
+        javax.swing.JOptionPane.YES_NO_OPTION,  // Opciones (Sí/No)
+        javax.swing.JOptionPane.QUESTION_MESSAGE // Icono de pregunta
+        );
+        // Si el usuario dice "Sí"
+        if (respuesta == javax.swing.JOptionPane.YES_OPTION) {
+            System.exit(0); // Cierra el programa completamente
+        }
+        // Sino, no hace nada
+    }//GEN-LAST:event_btnSalirActionPerformed
+
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -279,6 +297,7 @@ public class MainVentana extends javax.swing.JFrame {
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnHubs;
     private javax.swing.JButton btnRuta;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JLabel lblInfo;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JPanel panelBotones;
