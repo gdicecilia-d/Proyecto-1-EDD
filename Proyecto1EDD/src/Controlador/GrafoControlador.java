@@ -233,4 +233,20 @@ public class GrafoControlador {
     public void limpiarGrafo() {
         grafo.limpiar();
     }
+    
+    /**
+    * Obtener el grafo actual 
+    * @return El grafo de proteínas
+    */
+    public Grafo getGrafo() {
+        return grafo;
+    }
+    
+    /**
+    * Obtener número total de conexiones
+    * @return Cantidad de aristas
+    */
+    public int getNumConexiones() {
+        return grafo.getTodasAristas().length;
+    }
 }

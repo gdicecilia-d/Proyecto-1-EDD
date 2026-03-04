@@ -6,12 +6,25 @@ public class MainVentana extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainVentana.class.getName());
     
     private GrafoControlador controlador;
+    private PanelGrafo panelGrafo;
     
     public MainVentana() {
         initComponents();
         
         // Inicializar controlador
         controlador = new GrafoControlador();
+        
+        // Crear el panel del grafo
+        panelGrafo = new PanelGrafo();
+    
+        // Limpiar el panelCentral existente y agregar panelGrafo
+        panelCentral.removeAll();  
+        panelCentral.setLayout(new java.awt.BorderLayout()); 
+        panelCentral.add(panelGrafo, java.awt.BorderLayout.CENTER);
+        panelCentral.setBackground(new java.awt.Color(243, 241, 247));  
+        panelCentral.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(185, 180, 199), null));
+        panelCentral.revalidate(); 
+        panelCentral.repaint();
         
         // Imagenes para los botones y para el título
         // Tamaños
@@ -171,6 +184,7 @@ public class MainVentana extends javax.swing.JFrame {
 
         panelCentral.setBackground(new java.awt.Color(243, 241, 247));
         panelCentral.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(185, 180, 199), null));
+        panelCentral.setPreferredSize(new java.awt.Dimension(4, 235));
 
         javax.swing.GroupLayout panelCentralLayout = new javax.swing.GroupLayout(panelCentral);
         panelCentral.setLayout(panelCentralLayout);
@@ -180,7 +194,7 @@ public class MainVentana extends javax.swing.JFrame {
         );
         panelCentralLayout.setVerticalGroup(
             panelCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 251, Short.MAX_VALUE)
+            .addGap(0, 231, Short.MAX_VALUE)
         );
 
         panelInferior.setBackground(new java.awt.Color(255, 255, 255));
@@ -209,7 +223,7 @@ public class MainVentana extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 745, Short.MAX_VALUE)
             .addComponent(panelBotones, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            .addComponent(panelCentral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelCentral, javax.swing.GroupLayout.DEFAULT_SIZE, 745, Short.MAX_VALUE)
             .addComponent(panelInferior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -287,9 +301,12 @@ public class MainVentana extends javax.swing.JFrame {
 
                 // Actualizar información
                 String[] estadisticas = controlador.obtenerEstadisticas();
+                int conexiones = controlador.getNumConexiones();
                 lblInfo.setText("Proteínas: " + estadisticas[0] + 
-                               " | Hub principal: " + (estadisticas[1] != null ? estadisticas[1] : "---") + 
-                               " | Archivo: " + archivo.getName());
+                                " | Hub principal: " + (estadisticas[1] != null ? estadisticas[1] : "---") + 
+                                " | Conexiones: " + conexiones);
+                
+                panelGrafo.actualizarGrafo(controlador.getGrafo()); // Actualizar el grafo visual
 
                 javax.swing.JOptionPane.showMessageDialog(this,
                     "Archivo cargado exitosamente.\nProteínas: " + controlador.numProteínas(),
@@ -319,6 +336,8 @@ public class MainVentana extends javax.swing.JFrame {
                 lblInfo.setText("Proteínas: " + estadisticas[0] + 
                                " | Hub principal: " + (estadisticas[1] != null ? estadisticas[1] : "---") + 
                                " | Última: " + id);
+                
+                panelGrafo.actualizarGrafo(controlador.getGrafo()); // Actualizar el grafo visual
 
                 javax.swing.JOptionPane.showMessageDialog(this,
                     "Proteína " + id + " agregada",
@@ -354,6 +373,8 @@ public class MainVentana extends javax.swing.JFrame {
                     lblInfo.setText("Proteínas: " + estadisticas[0] + 
                                    " | Hub principal: " + (estadisticas[1] != null ? estadisticas[1] : "---") + 
                                    " | Eliminada: " + id);
+                    
+                    panelGrafo.actualizarGrafo(controlador.getGrafo()); // Actualizar el grafo visual
 
                     javax.swing.JOptionPane.showMessageDialog(this,
                         "Proteína " + id + " eliminada",
@@ -418,6 +439,8 @@ public class MainVentana extends javax.swing.JFrame {
                         javax.swing.JOptionPane.WARNING_MESSAGE);
                     return;
                 }
+                
+                panelGrafo.resaltarCamino(ruta); // Resaltar el camino
 
                 // Construir mensaje
                 StringBuilder mensaje = new StringBuilder();
@@ -467,6 +490,8 @@ public class MainVentana extends javax.swing.JFrame {
                     javax.swing.JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
+            
+            panelGrafo.resaltarHubs(hubs); // Resaltar los hubs
 
             // Construir mensaje
             StringBuilder mensaje = new StringBuilder();
