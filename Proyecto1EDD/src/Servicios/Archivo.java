@@ -33,16 +33,9 @@ public class Archivo {
         BufferedReader lector = new BufferedReader(new FileReader(archivo));
         
         String linea;
-        boolean primeraLinea = true;
         
-        // Leer el archivo línea por línea
+        // Leer cada línea del archivo 
         while ((linea = lector.readLine()) != null) {
-            
-            // Saltar la primera línea si es el encabezado
-            if (primeraLinea) {
-                primeraLinea = false;
-                continue;
-            }
             
             // Separar la línea por comas
             String[] partes = linea.split(",");
@@ -70,7 +63,6 @@ public class Archivo {
         
         // Cerrar el archivo
         lector.close();
-        
         return grafo;
     }
     
@@ -85,10 +77,6 @@ public class Archivo {
         
         // Crear el archivo para escribir
         BufferedWriter escritor = new BufferedWriter(new FileWriter(archivo));
-        
-        // Escribir el encabezado
-        escritor.write("Proteina_Origen,Proteina_Destino,Peso");
-        escritor.newLine();
         
         // Obtener todas las aristas del grafo 
         String[][] aristas = grafo.getTodasAristas();
