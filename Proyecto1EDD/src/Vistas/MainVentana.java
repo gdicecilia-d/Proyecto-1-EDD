@@ -228,31 +228,339 @@ public class MainVentana extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
+        // Verificar que hay datos
+        if (controlador.numProteínas() == 0) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "No hay datos para guardar. Carga un archivo primero.",
+                "Aviso",
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Crear para seleccionar archivos
+        javax.swing.JFileChooser fileChooser = new javax.swing.JFileChooser();
+        fileChooser.setDialogTitle("Guardar archivo CSV");
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Archivos CSV (*.csv)", "csv"));
+
+        int resultado = fileChooser.showSaveDialog(this);
+
+        if (resultado == javax.swing.JFileChooser.APPROVE_OPTION) {
+            try {
+                java.io.File archivo = fileChooser.getSelectedFile();
+
+                // Agregar extensión .csv si no la tiene
+                if (!archivo.getName().toLowerCase().endsWith(".csv")) {
+                    archivo = new java.io.File(archivo.getAbsolutePath() + ".csv");
+                }
+
+                // Llamar al controlador
+                controlador.guardarArchivo(archivo);
+
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "Archivo guardado: " + archivo.getName(),
+                    "Éxito",
+                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (Exception e) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "No se pudo guardar " + e.getMessage(),
+                    "Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarActionPerformed
-        // TODO add your handling code here:
+        // Crear para seleccionar archivos
+        javax.swing.JFileChooser fileChooser = new javax.swing.JFileChooser();
+        fileChooser.setDialogTitle("Seleccionar archivo CSV");
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Archivos CSV (*.csv)", "csv"));
+
+        int resultado = fileChooser.showOpenDialog(this);
+
+        if (resultado == javax.swing.JFileChooser.APPROVE_OPTION) {
+            try {
+                java.io.File archivo = fileChooser.getSelectedFile();
+
+                // Llamar al controlador
+                controlador.cargarArchivo(archivo);
+
+                // Actualizar información
+                String[] estadisticas = controlador.obtenerEstadisticas();
+                lblInfo.setText("Proteínas: " + estadisticas[0] + 
+                               " | Hub principal: " + (estadisticas[1] != null ? estadisticas[1] : "---") + 
+                               " | Archivo: " + archivo.getName());
+
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "Archivo cargado exitosamente.\nProteínas: " + controlador.numProteínas(),
+                    "Éxito",
+                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (Exception e) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "No se pudo cargar " + e.getMessage(),
+                    "Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnCargarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        // TODO add your handling code here:
+        String id = javax.swing.JOptionPane.showInputDialog(this,
+        "Ingresa el ID de la nueva proteína:",
+        "Agregar Proteína",
+        javax.swing.JOptionPane.QUESTION_MESSAGE);
+    
+        if (id != null && !id.trim().isEmpty()) {
+            try {
+                controlador.agregarProteina(id);
+
+                String[] estadisticas = controlador.obtenerEstadisticas();
+                lblInfo.setText("Proteínas: " + estadisticas[0] + 
+                               " | Hub principal: " + (estadisticas[1] != null ? estadisticas[1] : "---") + 
+                               " | Última: " + id);
+
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "Proteína " + id + " agregada",
+                    "Éxito",
+                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (Exception e) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "No se pudo agregar " + e.getMessage(),
+                    "Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
+        String id = javax.swing.JOptionPane.showInputDialog(this,
+        "Ingresa el ID de la proteína a eliminar:",
+        "Eliminar Proteína",
+        javax.swing.JOptionPane.WARNING_MESSAGE);
+    
+        if (id != null && !id.trim().isEmpty()) {
+            int confirmar = javax.swing.JOptionPane.showConfirmDialog(this,
+                "¿Estás seguro de eliminar la proteína " + id + "?",
+                "Confirmar eliminación",
+                javax.swing.JOptionPane.YES_NO_OPTION);
+
+            if (confirmar == javax.swing.JOptionPane.YES_OPTION) {
+                try {
+                    controlador.eliminarProteina(id);
+
+                    String[] estadisticas = controlador.obtenerEstadisticas();
+                    lblInfo.setText("Proteínas: " + estadisticas[0] + 
+                                   " | Hub principal: " + (estadisticas[1] != null ? estadisticas[1] : "---") + 
+                                   " | Eliminada: " + id);
+
+                    javax.swing.JOptionPane.showMessageDialog(this,
+                        "Proteína " + id + " eliminada",
+                        "Éxito",
+                        javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+                } catch (Exception e) {
+                    javax.swing.JOptionPane.showMessageDialog(this,
+                        "No se pudo eliminar " + e.getMessage(),
+                        "Error",
+                        javax.swing.JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnRutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRutaActionPerformed
-        // TODO add your handling code here:
+        // Verificar que hay datos
+        if (controlador.numProteínas() == 0) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "No hay proteínas cargadas. Carga un archivo primero.",
+                "Aviso",
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Crear panel para origen y destino
+        javax.swing.JPanel panel = new javax.swing.JPanel(new java.awt.GridLayout(2, 2, 10, 10));
+
+        panel.add(new javax.swing.JLabel("Proteína ORIGEN:"));
+        javax.swing.JTextField txtOrigen = new javax.swing.JTextField();
+        panel.add(txtOrigen);
+
+        panel.add(new javax.swing.JLabel("Proteína DESTINO:"));
+        javax.swing.JTextField txtDestino = new javax.swing.JTextField();
+        panel.add(txtDestino);
+
+        int resultado = javax.swing.JOptionPane.showConfirmDialog(this, panel,
+            "Buscar ruta más corta",
+            javax.swing.JOptionPane.OK_CANCEL_OPTION,
+            javax.swing.JOptionPane.PLAIN_MESSAGE);
+
+        if (resultado == javax.swing.JOptionPane.OK_OPTION) {
+            String origen = txtOrigen.getText().trim();
+            String destino = txtDestino.getText().trim();
+
+            if (origen.isEmpty() || destino.isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "Debes ingresar origen y destino",
+                    "Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            try {
+                String[] ruta = controlador.rutaMasCorta(origen, destino);
+
+                if (ruta == null) {
+                    javax.swing.JOptionPane.showMessageDialog(this,
+                        "No existe una ruta entre " + origen + " y " + destino,
+                        "Sin ruta",
+                        javax.swing.JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+                // Construir mensaje
+                StringBuilder mensaje = new StringBuilder();
+                mensaje.append("Ruta encontrada \n\n");
+                mensaje.append("Costo total: ").append(ruta[0]).append("\n\n");
+                mensaje.append("Camino: ");
+
+                for (int i = 1; i < ruta.length; i++) {
+                    mensaje.append(ruta[i]);
+                    if (i < ruta.length - 1) {
+                        mensaje.append(" → ");
+                    }
+                }
+
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    mensaje.toString(),
+                    "Ruta más Corta",
+                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (Exception e) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "Error: " + e.getMessage(),
+                    "Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnRutaActionPerformed
 
     private void btnHubsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHubsActionPerformed
-        // TODO add your handling code here:
+        // Verificar que hay datos
+        if (controlador.numProteínas() == 0) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "No hay proteínas cargadas. Carga un archivo primero.",
+                "Aviso",
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            String[] hubs = controlador.identificarHubs();
+            String masEsencial = controlador.proteinaMasEsencial();
+
+            if (hubs.length == 0) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "No se encontraron hubs.",
+                    "Resultado",
+                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+
+            // Construir mensaje
+            StringBuilder mensaje = new StringBuilder();
+            mensaje.append("Proteínas más importantes \n\n");
+
+            for (int i = 0; i < Math.min(hubs.length, 10); i++) {
+                mensaje.append(i+1).append(". ").append(hubs[i]);
+
+                if (hubs[i].equals(masEsencial)) {
+                    mensaje.append("  (Más importante)");
+                }
+                mensaje.append("\n");
+            }
+
+            // Mostrar en ventana con scroll
+            javax.swing.JTextArea textArea = new javax.swing.JTextArea(mensaje.toString());
+            textArea.setEditable(false);
+            textArea.setFont(new java.awt.Font("Arial", java.awt.Font.PLAIN, 14));
+
+            javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(textArea);
+            scrollPane.setPreferredSize(new java.awt.Dimension(400, 300));
+
+            javax.swing.JOptionPane.showMessageDialog(this,
+                scrollPane,
+                "Hubs - Proteínas más importantes",
+                javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+            // Actualizar etiqueta inferior
+            lblInfo.setText("Proteínas: " + controlador.numProteínas() + 
+                           " | Hub principal: " + masEsencial);
+
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Error: " + e.getMessage(),
+                "Error",
+                javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnHubsActionPerformed
 
     private void btnComplejosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComplejosActionPerformed
-        // TODO add your handling code here:
+        // Verificar que hay datos
+        if (controlador.numProteínas() == 0) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "No hay proteínas cargadas. Carga un archivo primero.",
+                "Aviso",
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            String[][] complejos = controlador.detectarComplejos();
+
+            if (complejos.length == 0) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "No se encontraron complejos proteicos.",
+                    "Resultado",
+                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+
+            // Construir mensaje
+            StringBuilder mensaje = new StringBuilder();
+            mensaje.append("COMPLEJOS PROTEICOS ENCONTRADOS:\n\n");
+
+            for (int i = 0; i < complejos.length; i++) {
+                mensaje.append("Complejo ").append(i+1).append(": ");
+                for (int j = 0; j < complejos[i].length; j++) {
+                    mensaje.append(complejos[i][j]);
+                    if (j < complejos[i].length - 1) {
+                        mensaje.append(" → ");
+                    }
+                }
+                mensaje.append(" (").append(complejos[i].length).append(" proteínas)\n");
+            }
+
+            // Mostrar en ventana
+            javax.swing.JTextArea textArea = new javax.swing.JTextArea(mensaje.toString());
+            textArea.setEditable(false);
+            textArea.setFont(new java.awt.Font("Arial", java.awt.Font.PLAIN, 12));
+
+            javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(textArea);
+            scrollPane.setPreferredSize(new java.awt.Dimension(500, 300));
+
+            javax.swing.JOptionPane.showMessageDialog(this,
+                scrollPane,
+                "Complejos Proteicos",
+                javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Error: " + e.getMessage(),
+                "Error",
+                javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnComplejosActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
