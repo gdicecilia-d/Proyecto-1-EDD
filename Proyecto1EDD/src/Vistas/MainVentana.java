@@ -233,9 +233,9 @@ public class MainVentana extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelBotones, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelCentral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelCentral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelInferior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(panelInferior, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -328,28 +328,123 @@ public class MainVentana extends javax.swing.JFrame {
         "Agregar Proteína",
         javax.swing.JOptionPane.QUESTION_MESSAGE);
     
-        if (id != null && !id.trim().isEmpty()) {
-            try {
-                controlador.agregarProteina(id);
+        // Verificar que el usuario no haya cancelado y que el ID no esté vacío
+        if (id == null || id.trim().isEmpty()) {
+            return; // Salir si no hay ID válido
+        }
 
-                String[] estadisticas = controlador.obtenerEstadisticas();
-                lblInfo.setText("Proteínas: " + estadisticas[0] + 
-                               " | Hub principal: " + (estadisticas[1] != null ? estadisticas[1] : "---") + 
-                               " | Última: " + id);
-                
-                panelGrafo.actualizarGrafo(controlador.getGrafo()); // Actualizar el grafo visual
+        // Preguntar si se quieren agregar conexiones
+        int conectar = javax.swing.JOptionPane.showConfirmDialog(this,
+            "¿Quiere conectar " + id + " con alguna proteína existente?",
+            "Agregar Conexión",
+            javax.swing.JOptionPane.YES_NO_OPTION);
 
+        // Variables para la conexión 
+        String destino = null;
+        int peso = 0;
+        boolean agregarConexion = false;
+
+        // Si quiere conexiones:
+        if (conectar == javax.swing.JOptionPane.YES_OPTION) {
+
+            // Datos de conexión
+            javax.swing.JPanel panelConexion = new javax.swing.JPanel(new java.awt.GridLayout(2, 2, 10, 10));
+
+            // Campo para la proteína destino
+            panelConexion.add(new javax.swing.JLabel("Conectar con:"));
+            javax.swing.JTextField txtDestino = new javax.swing.JTextField();
+            panelConexion.add(txtDestino);
+
+            // Campo para el peso de la conexión (valor por defecto 10)
+            panelConexion.add(new javax.swing.JLabel("Peso de la conexión:"));
+            javax.swing.JTextField txtPeso = new javax.swing.JTextField("10");
+            panelConexion.add(txtPeso);
+
+            int resultadoConexion = javax.swing.JOptionPane.showConfirmDialog(this,
+                panelConexion,
+                "Datos de la conexión",
+                javax.swing.JOptionPane.OK_CANCEL_OPTION);
+
+            // Si cancela, salir sin agregar nada
+            if (resultadoConexion != javax.swing.JOptionPane.OK_OPTION) {
+                return; 
+            }
+
+            // Obtener los valores ingresados y limpiar espacios
+            destino = txtDestino.getText().trim();
+            String pesoTexto = txtPeso.getText().trim();
+
+            // Verificar que ambos campos tengan datos
+            if (destino.isEmpty() || pesoTexto.isEmpty()) {
                 javax.swing.JOptionPane.showMessageDialog(this,
-                    "Proteína " + id + " agregada",
-                    "Éxito",
-                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
-
-            } catch (Exception e) {
-                javax.swing.JOptionPane.showMessageDialog(this,
-                    "No se pudo agregar " + e.getMessage(),
+                    "Debes completar todos los campos",
                     "Error",
                     javax.swing.JOptionPane.ERROR_MESSAGE);
+                return;
             }
+
+            try {
+                // Convertir el peso a número entero
+                peso = Integer.parseInt(pesoTexto);
+            } catch (NumberFormatException e) {
+                // Si el peso no es un número válido
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "El peso debe ser un número entero",
+                    "Error de formato",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Verificar que la proteína destino exista
+            if (controlador.getGrafo().buscarVertice(destino) == null) {
+                // Mostrar error si no existe
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "La proteína " + destino + " no existe",
+                    "Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            agregarConexion = true;
+        }
+
+        try {
+            // Agregar la proteína
+            controlador.agregarProteina(id);
+
+            // Si hay conexión, agregarla
+            if (agregarConexion) {
+                controlador.getGrafo().insertarArista(id, destino, peso);
+            }
+
+            // Actualizar la interfaz
+            String[] estadisticas = controlador.obtenerEstadisticas();
+            int conexiones = controlador.getNumConexiones(); // Obtener total de conexiones
+
+            // Actualizar el panel inferior con la nueva información
+            lblInfo.setText("Proteínas: " + estadisticas[0] + 
+                           " | Hub principal: " + (estadisticas[1] != null ? estadisticas[1] : "---") + 
+                           " | Conexiones: " + conexiones); 
+
+            // Actualizar el panel del grafo para mostrar los cambios
+            panelGrafo.actualizarGrafo(controlador.getGrafo());
+
+            // Mensaje según si se agregaron conexiones o no
+            String mensajeExito = "Proteína " + id + " agregada";
+            if (agregarConexion) {
+                mensajeExito += " con conexión a " + destino + " (peso " + peso + ")";
+            }
+
+            javax.swing.JOptionPane.showMessageDialog(this,
+                mensajeExito,
+                "Éxito",
+                javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "No se pudo agregar: " + e.getMessage(),
+                "Error",
+                javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
