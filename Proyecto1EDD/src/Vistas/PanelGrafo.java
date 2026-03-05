@@ -217,4 +217,42 @@ public class PanelGrafo extends JPanel {
             }
         }
     }
+    
+    /**
+    * Resaltar los complejos proteicos con diferentes colores
+    * @param complejos Matriz con los complejos 
+    */
+    public void resaltarComplejos(String[][] complejos) {
+        if (complejos == null || complejos.length == 0) {
+            return;
+        }
+
+        // Colores para cada complejo (
+        String[] colores = {
+            "#FF8A9F",  // Rosa claro
+            "#4ECDC4", // Turquesa
+            "#9B6BB7", // Lila
+            "#96CEB4", // Verde menta
+            "#FFEAA7" // Amarillo pastel
+        };
+
+        // Nodos a su estilo normal primero
+        for (Node node : graphStream) {
+            node.removeAttribute("ui.class");
+            node.setAttribute("ui.style", "fill-color: #6A3FB5; size: 30px;");
+        }
+
+        // Colorear cada complejo
+        for (int c = 0; c < complejos.length; c++) {
+            String color = colores[c % colores.length]; // Ciclar colores si hay más complejos
+
+            for (int i = 0; i < complejos[c].length; i++) {
+                String id = complejos[c][i];
+                Node node = graphStream.getNode(id);
+                if (node != null) {
+                    node.setAttribute("ui.style", "fill-color: " + color + "; size: 30px;");
+                }
+            }
+        }
+    }
 }

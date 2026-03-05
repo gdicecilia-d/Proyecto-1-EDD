@@ -81,7 +81,23 @@ public class MainVentana extends javax.swing.JFrame {
         
         // Posición del texto y la imagen
         lblTitulo.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT); 
-        lblTitulo.setIconTextGap(15);    
+        lblTitulo.setIconTextGap(15); 
+        
+        // Carga automática del archivo
+        try {
+            java.io.File archivoInicial = new java.io.File("maestro.csv");
+            if (archivoInicial.exists()) {
+                controlador.cargarArchivo(archivoInicial);
+                String[] estadisticas = controlador.obtenerEstadisticas();
+                int conexiones = controlador.getNumConexiones();
+                lblInfo.setText("Proteínas: " + estadisticas[0] + 
+                               " | Hub principal: " + (estadisticas[1] != null ? estadisticas[1] : "---") + 
+                               " | Conexiones: " + conexiones);
+                panelGrafo.actualizarGrafo(controlador.getGrafo());
+            }
+        } catch (Exception e) {
+            //No hacer nada
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -285,6 +301,22 @@ public class MainVentana extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarActionPerformed
+        
+        // Verificar si hay datos para guardar
+        if (controlador.numProteínas() > 0) {
+            int respuesta = javax.swing.JOptionPane.showConfirmDialog(this,
+                "Hay datos cargados actualmente.\n¿Deseas guardarlos antes de cargar un nuevo archivo?",
+                "Datos sin guardar",
+                javax.swing.JOptionPane.YES_NO_CANCEL_OPTION,
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+
+            if (respuesta == javax.swing.JOptionPane.YES_OPTION) {
+                btnGuardarActionPerformed(evt);
+            } else if (respuesta == javax.swing.JOptionPane.CANCEL_OPTION) {
+                return;
+            }
+        }
+
         // Crear para seleccionar archivos
         javax.swing.JFileChooser fileChooser = new javax.swing.JFileChooser();
         fileChooser.setDialogTitle("Seleccionar archivo CSV");
@@ -674,7 +706,9 @@ public class MainVentana extends javax.swing.JFrame {
                 scrollPane,
                 "Complejos Proteicos",
                 javax.swing.JOptionPane.INFORMATION_MESSAGE);
-
+            
+            panelGrafo.resaltarComplejos(complejos);
+            
         } catch (Exception e) {
             javax.swing.JOptionPane.showMessageDialog(this,
                 "Error: " + e.getMessage(),
