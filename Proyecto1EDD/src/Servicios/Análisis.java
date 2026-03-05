@@ -38,21 +38,9 @@ public class Análisis {
             hubsTemp[i][1] = String.valueOf(grado);
         }
         
-        // Ordenar por grado de mayor a menor 
-        for (int i = 0; i < cantidadProteinas - 1; i++) {
-            for (int j = 0; j < cantidadProteinas - i - 1; j++) {
-                
-                int gradoActual = Integer.parseInt(hubsTemp[j][1]);
-                int gradoSiguiente = Integer.parseInt(hubsTemp[j + 1][1]);
-                
-                if (gradoActual < gradoSiguiente) {
-                    // Intercambiar
-                    String[] temp = hubsTemp[j];
-                    hubsTemp[j] = hubsTemp[j + 1];
-                    hubsTemp[j + 1] = temp;
-                }
-            }
-        }
+        // Usando Merge Sort para ordenar para ordenar de mayor a menor
+        
+        mergeSort(hubsTemp, 0, cantidadProteinas - 1);
         
         // Crear arreglo solo con los IDs ordenados
         String[] hubs = new String[cantidadProteinas];
@@ -61,6 +49,89 @@ public class Análisis {
         }
         
         return hubs;
+    }
+    
+    /**
+     * Merge Sort
+     * 
+     * @param arr Arreglo a ordenar
+     * @param izquierda Índice inicial
+     * @param derecha Índice final
+     */
+    private void mergeSort(String[][] arr, int izquierda, int derecha) {
+        if (izquierda < derecha) {
+            int medio = (izquierda + derecha) / 2;
+            
+            // Dividir el arreglo en dos mitades
+            mergeSort(arr, izquierda, medio);
+            mergeSort(arr, medio + 1, derecha);
+            
+            // Combinar las mitades ordenadas
+            merge(arr, izquierda, medio, derecha);
+        }
+    }
+    
+    /**
+     * Combinar las dos mitades ordenadas (de mayor a menor)
+     * 
+     * @param arr Arreglo completo
+     * @param izquierda Inicio de la primera mitad
+     * @param medio Fin de la primera mitad
+     * @param derecha Fin de la segunda mitad
+     */
+    private void merge(String[][] arr, int izquierda, int medio, int derecha) {
+        // Tamaños de las sublistas
+        int tamañoIzq = medio - izquierda + 1;
+        int tamañoDer = derecha - medio;
+        
+        // Arreglos temporales
+        String[][] izquierdaTemp = new String[tamañoIzq][2];
+        String[][] derechaTemp = new String[tamañoDer][2];
+        
+        // Copiar datos a los arreglos temporales
+        for (int i = 0; i < tamañoIzq; i++) {
+            izquierdaTemp[i][0] = arr[izquierda + i][0];
+            izquierdaTemp[i][1] = arr[izquierda + i][1];
+        }
+        for (int j = 0; j < tamañoDer; j++) {
+            derechaTemp[j][0] = arr[medio + 1 + j][0];
+            derechaTemp[j][1] = arr[medio + 1 + j][1];
+        }
+        
+        // Mezclar 
+        int i = 0, j = 0, k = izquierda;
+        while (i < tamañoIzq && j < tamañoDer) {
+            int gradoIzq = Integer.parseInt(izquierdaTemp[i][1]);
+            int gradoDer = Integer.parseInt(derechaTemp[j][1]);
+            
+            // Orden descendente (mayor a menor)
+            if (gradoIzq >= gradoDer) {
+                arr[k][0] = izquierdaTemp[i][0];
+                arr[k][1] = izquierdaTemp[i][1];
+                i++;
+            } else {
+                arr[k][0] = derechaTemp[j][0];
+                arr[k][1] = derechaTemp[j][1];
+                j++;
+            }
+            k++;
+        }
+        
+        // Copiar elementos restantes de la izquierda
+        while (i < tamañoIzq) {
+            arr[k][0] = izquierdaTemp[i][0];
+            arr[k][1] = izquierdaTemp[i][1];
+            i++;
+            k++;
+        }
+        
+        // Copiar elementos restantes de la derecha
+        while (j < tamañoDer) {
+            arr[k][0] = derechaTemp[j][0];
+            arr[k][1] = derechaTemp[j][1];
+            j++;
+            k++;
+        }
     }
     
     /**

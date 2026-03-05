@@ -39,24 +39,24 @@ public class PanelGrafo extends JPanel {
         String estilo = 
             "node { " +
             "   fill-color: #6A3FB5;" +        
-            "   size: 20px;" +                   
-            "   text-size: 10;" +                
-            "   text-color: white;" +           
+            "   size: 40px;" +                  
+            "   text-size: 18;" +                
+            "   text-color: white;" +            
             "   text-style: bold;" +
-            "   text-alignment: under;" +       
+            "   text-alignment: center;" +       
             "}" +
             "node.hub { " +                      
             "   fill-color: #E83F6F;" +         
-            "   size: 25px;" +
+            "   size: 45px;" +                   
             "}" +
             "edge { " +
             "   fill-color: #666;" +            
-            "   size: 2px;" +                   
-            "   text-size: 8;" +                 
+            "   size: 3px;" +                     
+            "   text-size: 20;" +                 
             "   text-color: black;" +
             "   text-background-mode: plain;" + 
             "   text-background-color: white;" +
-            "   text-background-padding: 3px;" + 
+            "   text-background-padding: 4px;" +  
             "   text-alignment: along;" +       
             "}";
         
@@ -64,9 +64,9 @@ public class PanelGrafo extends JPanel {
         
         // Crear el visor
         viewer = new SwingViewer(graphStream, Viewer.ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
-        viewer.enableAutoLayout(); // Coloca los nodos automáticamente
+        viewer.enableAutoLayout(); 
         graphStream.setAttribute("layout.force", 0.5);     // Fuerza de separación
-        graphStream.setAttribute("layout.quality", 1.0);   // Calidad del layout
+        graphStream.setAttribute("layout.quality", 1.0);   
         
         // Obtener el panel de visualización
         viewPanel = (ViewPanel) viewer.addDefaultView(false);
@@ -124,24 +124,24 @@ public class PanelGrafo extends JPanel {
         String estilo = 
             "node { " +
             "   fill-color: #6A3FB5;" +        
-            "   size: 20px;" +                  
-            "   text-size: 10;" +                
+            "   size: 40px;" +                  
+            "   text-size: 18;" +                
             "   text-color: white;" +            
             "   text-style: bold;" +
-            "   text-alignment: under;" +       
+            "   text-alignment: center;" +       
             "}" +
             "node.hub { " +                      
             "   fill-color: #E83F6F;" +         
-            "   size: 25px;" +
+            "   size: 45px;" +                   
             "}" +
             "edge { " +
             "   fill-color: #666;" +            
-            "   size: 2px;" +                    
-            "   text-size: 8;" +                
+            "   size: 3px;" +                     
+            "   text-size: 20;" +                 
             "   text-color: black;" +
             "   text-background-mode: plain;" + 
             "   text-background-color: white;" +
-            "   text-background-padding: 3px;" + 
+            "   text-background-padding: 4px;" +  
             "   text-alignment: along;" +       
             "}";
     
@@ -171,7 +171,7 @@ public class PanelGrafo extends JPanel {
                 
                 // El hub principal se detalla con una estrella
                 if (i == 0) {
-                    node.setAttribute("ui.label", hubs[i] + " ⭐");
+                    node.setAttribute("ui.label", hubs[i] + "⭐");
                 }
             }
         }

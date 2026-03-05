@@ -39,9 +39,9 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="panelBotones" min="-2" pref="101" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="panelCentral" min="-2" max="-2" attributes="0"/>
+              <Component id="panelCentral" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="panelInferior" max="32767" attributes="0"/>
+              <Component id="panelInferior" min="-2" pref="34" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

@@ -31,8 +31,8 @@ public class GrafoControlador {
     * Comienza el grafo y todos los servicios
     */
     public GrafoControlador() {
-        // Creación del grafo para máx 100 proteínas 
-        this.grafo = new Grafo(100);
+        // Creación del grafo para máx 1000 proteínas 
+        this.grafo = new Grafo(1000);
         this.archivo = new Archivo();
         this.recorridos = new Recorridos();
         this.dijkstra = new Dijkstra();
