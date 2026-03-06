@@ -35,7 +35,7 @@ public class PanelGrafo extends JPanel {
         // Crear un grafo vacío de GraphStream
         graphStream = new SingleGraph("BioGraph");
         
-        // Configuración del estilo 
+        // Estilo 
         String estilo = 
             "node { " +
             "   fill-color: #6A3FB5;" +        
@@ -71,7 +71,7 @@ public class PanelGrafo extends JPanel {
         // Obtener el panel de visualización
         viewPanel = (ViewPanel) viewer.addDefaultView(false);
         
-        // Configuración de este JPanel
+        // Configuración de este panel
         setLayout(new BorderLayout());
         add(viewPanel, BorderLayout.CENTER);
         

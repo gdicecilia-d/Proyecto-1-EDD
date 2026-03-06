@@ -1,7 +1,7 @@
 package Modelo;
 
 /**
- * Proposito: Representar TODA la red de proteinas.
+ * Proposito: Representar toda la red de proteinas.
  * Es la estructura principal del proyecto que contiene todos los nodos
  * y gestiona las operaciones sobre la red PPI.
  * 
@@ -72,7 +72,7 @@ public class Grafo {
     }
     
     /**
-     * Inserta una nueva arista (interaccion) entre dos proteinas.
+     * Inserta una nueva arista entre dos proteinas.
      * @param origen ID de la proteina origen
      * @param destino ID de la proteina destino
      * @param peso Peso/costo de la interaccion
@@ -276,7 +276,7 @@ public class Grafo {
     }
     
     /**
-     * Obtiene el objeto NodoGrafo completo (para acceder a metodos de visualizacion).
+     * Obtiene el objeto NodoGrafo completo 
      * @param id ID de la proteina
      * @return El objeto NodoGrafo o null
      */
@@ -341,7 +341,7 @@ public class Grafo {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("=== GRAFO DE INTERACCIONES PROTEICAS ===\n");
+        sb.append("Grafo de interacciones protéicas \n");
         sb.append("Vértices: ").append(numVertices).append("/").append(maxNodos).append("\n");
         sb.append("Tipo: ").append(esDirigido ? "Dirigido" : "No Dirigido").append("\n\n");
         
