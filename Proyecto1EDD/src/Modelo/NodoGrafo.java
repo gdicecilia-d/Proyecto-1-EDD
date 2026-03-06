@@ -1,7 +1,7 @@
 package Modelo;
 
 /**
- * Proposito: Representar UNA proteina en la red de Interaccion Proteina-Proteina (PPI).
+ * Proposito: Representar una proteina en la red de Interaccion Proteina-Proteina (PPI).
  * Cada proteina es un vertice del grafo.
  * 
  * @author Elohym
@@ -277,7 +277,7 @@ public class NodoGrafo {
     
     @Override
     public String toString() {
-        return id + (activa ? "" : " [INACTIVA]");
+        return id + (activa ? "" : " [Inactiva]");
     }
     
     /**

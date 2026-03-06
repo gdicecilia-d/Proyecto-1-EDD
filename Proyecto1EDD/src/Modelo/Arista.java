@@ -1,7 +1,7 @@
 package Modelo;
 
 /**
- * Proposito: Representar UNA conexion de proteinas.
+ * Proposito: Representar una conexion de proteinas.
  * las proteinas se conectan con un peso/costo que representa
  * la resistencia en la transmision de señales
  * 

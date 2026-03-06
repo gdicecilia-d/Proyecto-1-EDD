@@ -759,11 +759,11 @@ public class MainVentana extends javax.swing.JFrame {
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         int respuesta = javax.swing.JOptionPane.showConfirmDialog(
-        this,                                   // Ventana 
-        "¿Estás seguro que deseas salir?",      // Mensaje
-        "Confirmar salida",                      // Título
-        javax.swing.JOptionPane.YES_NO_OPTION,  // Opciones (Sí/No)
-        javax.swing.JOptionPane.QUESTION_MESSAGE // Icono de pregunta
+        this,                                  
+        "¿Estás seguro que deseas salir?",      
+        "Confirmar salida",                      
+        javax.swing.JOptionPane.YES_NO_OPTION,  
+        javax.swing.JOptionPane.QUESTION_MESSAGE 
         );
         // Si el usuario dice "Sí"
         if (respuesta == javax.swing.JOptionPane.YES_OPTION) {
