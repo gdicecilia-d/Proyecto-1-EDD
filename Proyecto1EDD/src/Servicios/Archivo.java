@@ -26,8 +26,8 @@ public class Archivo {
      */
     public Grafo cargarArchivo(File archivo) throws IOException, NumberFormatException {
         
-        // Crear un grafo vacío para máx 100 proteínas 
-        Grafo grafo = new Grafo(100);
+        // Crear un grafo vacío para máx 1000 proteínas 
+        Grafo grafo = new Grafo(1000);
         
         // Abrir el archivo para leerlo
         BufferedReader lector = new BufferedReader(new FileReader(archivo));
