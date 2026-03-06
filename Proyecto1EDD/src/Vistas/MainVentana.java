@@ -11,6 +11,9 @@ public class MainVentana extends javax.swing.JFrame {
     public MainVentana() {
         initComponents();
         
+        // Abrir en pantalla completa
+        this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+        
         // Inicializar controlador
         controlador = new GrafoControlador();
         
@@ -54,6 +57,12 @@ public class MainVentana extends javax.swing.JFrame {
         java.awt.Image imgEliminar = new javax.swing.ImageIcon(urlEliminar).getImage();
         java.awt.Image imgEliminarEscalada = imgEliminar.getScaledInstance(tamañoBoton, tamañoBoton, java.awt.Image.SCALE_SMOOTH);
         btnEliminar.setIcon(new javax.swing.ImageIcon(imgEliminarEscalada));
+        
+        // Agregar Conexion
+        java.net.URL urlAgregarConexion = getClass().getResource("/Imagenes/broken-link.png");
+        java.awt.Image imgAgregarConexion = new javax.swing.ImageIcon(urlAgregarConexion).getImage();
+        java.awt.Image imgAgregarConexionEscalada = imgAgregarConexion.getScaledInstance(tamañoBoton, tamañoBoton, java.awt.Image.SCALE_SMOOTH);
+        btnAgregarConexion.setIcon(new javax.swing.ImageIcon(imgAgregarConexionEscalada));
         
         // Detectar Complejos 
         java.net.URL urlComplejos = getClass().getResource("/Imagenes/search.png");
@@ -111,6 +120,7 @@ public class MainVentana extends javax.swing.JFrame {
         btnGuardar = new javax.swing.JButton();
         btnAgregar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
+        btnAgregarConexion = new javax.swing.JButton();
         btnComplejos = new javax.swing.JButton();
         btnRuta = new javax.swing.JButton();
         btnHubs = new javax.swing.JButton();
@@ -120,6 +130,7 @@ public class MainVentana extends javax.swing.JFrame {
         btnSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("BioGraph");
         setBackground(new java.awt.Color(237, 235, 255));
 
         panelTitulo.setBackground(new java.awt.Color(230, 225, 240));
@@ -139,6 +150,7 @@ public class MainVentana extends javax.swing.JFrame {
         btnCargar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnCargar.setForeground(new java.awt.Color(255, 255, 255));
         btnCargar.setText("Cargar Archivo");
+        btnCargar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCargar.setFocusPainted(false);
         btnCargar.setPreferredSize(new java.awt.Dimension(170, 35));
         btnCargar.addActionListener(this::btnCargarActionPerformed);
@@ -148,6 +160,7 @@ public class MainVentana extends javax.swing.JFrame {
         btnGuardar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
         btnGuardar.setText("Guardar Cambios");
+        btnGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnGuardar.setFocusPainted(false);
         btnGuardar.setPreferredSize(new java.awt.Dimension(170, 35));
         btnGuardar.addActionListener(this::btnGuardarActionPerformed);
@@ -157,6 +170,7 @@ public class MainVentana extends javax.swing.JFrame {
         btnAgregar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnAgregar.setForeground(new java.awt.Color(255, 255, 255));
         btnAgregar.setText("Agregar Proteína");
+        btnAgregar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAgregar.setFocusPainted(false);
         btnAgregar.setPreferredSize(new java.awt.Dimension(170, 35));
         btnAgregar.addActionListener(this::btnAgregarActionPerformed);
@@ -166,15 +180,27 @@ public class MainVentana extends javax.swing.JFrame {
         btnEliminar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminar.setText("Eliminar Proteína");
+        btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnEliminar.setFocusPainted(false);
         btnEliminar.setPreferredSize(new java.awt.Dimension(170, 35));
         btnEliminar.addActionListener(this::btnEliminarActionPerformed);
         panelBotones.add(btnEliminar);
 
+        btnAgregarConexion.setBackground(new java.awt.Color(204, 255, 255));
+        btnAgregarConexion.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        btnAgregarConexion.setForeground(new java.awt.Color(0, 179, 179));
+        btnAgregarConexion.setText("Agregar Conexion");
+        btnAgregarConexion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAgregarConexion.setFocusPainted(false);
+        btnAgregarConexion.setPreferredSize(new java.awt.Dimension(170, 35));
+        btnAgregarConexion.addActionListener(this::btnAgregarConexionActionPerformed);
+        panelBotones.add(btnAgregarConexion);
+
         btnComplejos.setBackground(new java.awt.Color(214, 205, 234));
         btnComplejos.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnComplejos.setForeground(new java.awt.Color(75, 58, 109));
         btnComplejos.setText("Detectar Complejos");
+        btnComplejos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnComplejos.setFocusPainted(false);
         btnComplejos.setPreferredSize(new java.awt.Dimension(170, 35));
         btnComplejos.addActionListener(this::btnComplejosActionPerformed);
@@ -184,6 +210,7 @@ public class MainVentana extends javax.swing.JFrame {
         btnRuta.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnRuta.setForeground(new java.awt.Color(110, 106, 120));
         btnRuta.setText("Ruta más Corta");
+        btnRuta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnRuta.setFocusPainted(false);
         btnRuta.setPreferredSize(new java.awt.Dimension(170, 35));
         btnRuta.addActionListener(this::btnRutaActionPerformed);
@@ -193,6 +220,7 @@ public class MainVentana extends javax.swing.JFrame {
         btnHubs.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnHubs.setForeground(new java.awt.Color(201, 79, 144));
         btnHubs.setText("Identificar Hubs");
+        btnHubs.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnHubs.setFocusPainted(false);
         btnHubs.setPreferredSize(new java.awt.Dimension(170, 35));
         btnHubs.addActionListener(this::btnHubsActionPerformed);
@@ -200,6 +228,7 @@ public class MainVentana extends javax.swing.JFrame {
 
         panelCentral.setBackground(new java.awt.Color(243, 241, 247));
         panelCentral.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(185, 180, 199), null));
+        panelCentral.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         panelCentral.setPreferredSize(new java.awt.Dimension(4, 235));
 
         javax.swing.GroupLayout panelCentralLayout = new javax.swing.GroupLayout(panelCentral);
@@ -213,7 +242,7 @@ public class MainVentana extends javax.swing.JFrame {
             .addGap(0, 231, Short.MAX_VALUE)
         );
 
-        panelInferior.setBackground(new java.awt.Color(255, 255, 255));
+        panelInferior.setBackground(new java.awt.Color(230, 225, 240));
         panelInferior.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(165, 138, 217), null));
         panelInferior.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         panelInferior.setLayout(new java.awt.BorderLayout());
@@ -229,6 +258,7 @@ public class MainVentana extends javax.swing.JFrame {
         btnSalir.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnSalir.setForeground(new java.awt.Color(255, 255, 255));
         btnSalir.setText("Salir");
+        btnSalir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSalir.setPreferredSize(new java.awt.Dimension(72, 15));
         btnSalir.addActionListener(this::btnSalirActionPerformed);
         panelInferior.add(btnSalir, java.awt.BorderLayout.EAST);
@@ -237,9 +267,9 @@ public class MainVentana extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 745, Short.MAX_VALUE)
+            .addComponent(panelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 848, Short.MAX_VALUE)
             .addComponent(panelBotones, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            .addComponent(panelCentral, javax.swing.GroupLayout.DEFAULT_SIZE, 745, Short.MAX_VALUE)
+            .addComponent(panelCentral, javax.swing.GroupLayout.DEFAULT_SIZE, 848, Short.MAX_VALUE)
             .addComponent(panelInferior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -255,6 +285,7 @@ public class MainVentana extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -418,7 +449,16 @@ public class MainVentana extends javax.swing.JFrame {
             try {
                 // Convertir el peso a número entero
                 peso = Integer.parseInt(pesoTexto);
-            } catch (NumberFormatException e) {
+                
+                // Verificar si es mayor a 0
+                if (peso <= 0) {
+                    javax.swing.JOptionPane.showMessageDialog(this,
+                        "El peso debe ser un número positivo mayor que cero",
+                        "Error de validación",
+                        javax.swing.JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }catch (NumberFormatException e) {
                 // Si el peso no es un número válido
                 javax.swing.JOptionPane.showMessageDialog(this,
                     "El peso debe ser un número entero",
@@ -732,6 +772,134 @@ public class MainVentana extends javax.swing.JFrame {
         // Sino, no hace nada
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    private void btnAgregarConexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarConexionActionPerformed
+        // Verificar que hay proteínas cargadas
+        if (controlador.numProteínas() < 2) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Se necesitan al menos 2 proteínas para crear una conexión.",
+                "Aviso",
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Crear panel para los datos de la conexión
+        javax.swing.JPanel panel = new javax.swing.JPanel(new java.awt.GridLayout(3, 2, 10, 10));
+
+        panel.add(new javax.swing.JLabel("Proteína Origen:"));
+        javax.swing.JTextField txtOrigen = new javax.swing.JTextField();
+        panel.add(txtOrigen);
+
+        panel.add(new javax.swing.JLabel("Proteína Destino:"));
+        javax.swing.JTextField txtDestino = new javax.swing.JTextField();
+        panel.add(txtDestino);
+
+        panel.add(new javax.swing.JLabel("Peso de la conexión:"));
+        javax.swing.JTextField txtPeso = new javax.swing.JTextField("10");
+        panel.add(txtPeso);
+
+        int resultado = javax.swing.JOptionPane.showConfirmDialog(this, panel,
+            "Agregar nueva conexión",
+            javax.swing.JOptionPane.OK_CANCEL_OPTION,
+            javax.swing.JOptionPane.PLAIN_MESSAGE);
+
+        if (resultado == javax.swing.JOptionPane.OK_OPTION) {
+            String origen = txtOrigen.getText().trim();
+            String destino = txtDestino.getText().trim();
+            String pesoTexto = txtPeso.getText().trim();
+
+            // Verificar que origen y destino no estén vacíos
+            if (origen.isEmpty() || destino.isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "Debes ingresar origen y destino",
+                    "Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Verificar que no sean la misma proteína
+            if (origen.equals(destino)) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "El origen y destino no pueden ser la misma proteína",
+                    "Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Verificar que el peso sea un número entero
+            int peso;
+            try {
+                peso = Integer.parseInt(pesoTexto);
+            } catch (NumberFormatException e) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "El peso debe ser un número entero",
+                    "Error de formato",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Verificar que el peso sea positivo
+            if (peso <= 0) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "El peso debe ser un número positivo mayor que cero",
+                    "Error de validación",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Verificar que la proteína origen exista
+            if (controlador.getGrafo().buscarVertice(origen) == null) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "La proteína " + origen + " no existe",
+                    "Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Verificar que la proteína destino exista
+            if (controlador.getGrafo().buscarVertice(destino) == null) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "La proteína " + destino + " no existe",
+                    "Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Verificar si la conexión ya existe
+            if (controlador.existeConexion(origen, destino)) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "Ya existe una conexión entre " + origen + " y " + destino,
+                    "Aviso",
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Agregar la conexión
+            try {
+                controlador.getGrafo().insertarArista(origen, destino, peso);
+
+                // Actualizar interfaz
+                String[] estadisticas = controlador.obtenerEstadisticas();
+                int conexiones = controlador.getNumConexiones();
+                lblInfo.setText("Proteínas: " + estadisticas[0] + 
+                               " | Hub principal: " + (estadisticas[1] != null ? estadisticas[1] : "---") + 
+                               " | Conexiones: " + conexiones);
+
+                panelGrafo.actualizarGrafo(controlador.getGrafo());
+
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "Conexión agregada: " + origen + " ↔ " + destino + " (peso: " + peso + ")",
+                    "Éxito",
+                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (Exception e) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "Error al agregar conexión: " + e.getMessage(),
+                    "Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnAgregarConexionActionPerformed
+
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -753,6 +921,7 @@ public class MainVentana extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnAgregarConexion;
     private javax.swing.JButton btnCargar;
     private javax.swing.JButton btnComplejos;
     private javax.swing.JButton btnEliminar;
