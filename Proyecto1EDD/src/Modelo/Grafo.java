@@ -15,11 +15,11 @@ public class Grafo {
     private int maxNodos;
     private int numVertices;
     
-    private static final int CAPACIDAD_INICIAL = 100;
+    private static final int CAPACIDAD_INICIAL = 1000;
     
     /**
      * Constructor por defecto.
-     * Crea un grafo no dirigido con capacidad inicial de 100 proteinas.
+     * Crea un grafo no dirigido con capacidad inicial de 1000 proteinas.
      */
     
     public Grafo() {
