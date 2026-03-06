@@ -39,7 +39,7 @@ public class PanelGrafo extends JPanel {
         String estilo = 
             "node { " +
             "   fill-color: #6A3FB5;" +        
-            "   size: 40px;" +                  
+            "   size: 50px;" +                  
             "   text-size: 18;" +                
             "   text-color: white;" +            
             "   text-style: bold;" +
@@ -47,7 +47,7 @@ public class PanelGrafo extends JPanel {
             "}" +
             "node.hub { " +                      
             "   fill-color: #E83F6F;" +         
-            "   size: 45px;" +                   
+            "   size: 55px;" +                   
             "}" +
             "edge { " +
             "   fill-color: #666;" +            
@@ -124,7 +124,7 @@ public class PanelGrafo extends JPanel {
         String estilo = 
             "node { " +
             "   fill-color: #6A3FB5;" +        
-            "   size: 40px;" +                  
+            "   size: 50px;" +                  
             "   text-size: 18;" +                
             "   text-color: white;" +            
             "   text-style: bold;" +
@@ -132,7 +132,7 @@ public class PanelGrafo extends JPanel {
             "}" +
             "node.hub { " +                      
             "   fill-color: #E83F6F;" +         
-            "   size: 45px;" +                   
+            "   size: 55px;" +                   
             "}" +
             "edge { " +
             "   fill-color: #666;" +            
@@ -239,7 +239,7 @@ public class PanelGrafo extends JPanel {
         // Nodos a su estilo normal primero
         for (Node node : graphStream) {
             node.removeAttribute("ui.class");
-            node.setAttribute("ui.style", "fill-color: #6A3FB5; size: 30px;");
+            node.setAttribute("ui.style", "fill-color: #6A3FB5; size: 50px;");
         }
 
         // Colorear cada complejo
@@ -250,7 +250,7 @@ public class PanelGrafo extends JPanel {
                 String id = complejos[c][i];
                 Node node = graphStream.getNode(id);
                 if (node != null) {
-                    node.setAttribute("ui.style", "fill-color: " + color + "; size: 30px;");
+                    node.setAttribute("ui.style", "fill-color: " + color + "; size: 50px;");
                 }
             }
         }
